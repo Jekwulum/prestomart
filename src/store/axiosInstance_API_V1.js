@@ -10,16 +10,12 @@ const getHeaders = () => {
     };
 }
 
-// const PROD_URL = "https://prestomart-api.onrender.com/";
-// const axiosInstance_API_V1 = axios.create({
-//     baseURL: PROD_URL,
-//     headers: getHeaders()
-// })
-
+const urls = {
+    REACT_APP_PROD_API_URL: "https://prestomart-api.onrender.com/",
+    REACT_APP_DEV_API_URL: "http://localhost:5000/api/v1"
+}
 const axiosInstance_API_V1 = axios.create({
-    baseURL: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ?
-        "http://localhost:5000/api/v1/" :
-        process.env.REACT_APP_PROD_API_URL,
+    baseURL: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? urls.REACT_APP_DEV_API_URL : urls.REACT_APP_PROD_API_URL,
     headers: getHeaders()
 })
 

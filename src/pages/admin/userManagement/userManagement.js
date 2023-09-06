@@ -6,6 +6,7 @@ import {
     MagnifyingGlassIcon,
     XCircleIcon
 } from "@heroicons/react/24/outline";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import React, { useEffect } from "react";
 import { Button, ButtonGroup, LinkButton, TransparentButton } from "../../../components/buttons";
 import { toast } from "react-toastify";
@@ -76,9 +77,11 @@ const UserManagement = () => {
                 </thead>
 
                 <tbody>
-                    {state.users.map((i, k) =>
-                        <UserManagementRow key={k} user={i} />
-                    )}
+                    {Array.isArray(state.users) ? (
+                        state.users.map((i, k) => <UserManagementRow key={k} user={i} />)
+                    ) : (<tr>
+                        <Cog6ToothIcon className={"my-12 w-12 h-12 text-white animate-spin"} />
+                    </tr>)}
                 </tbody>
             </table>
         </>
