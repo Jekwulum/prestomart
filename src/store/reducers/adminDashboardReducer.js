@@ -1,10 +1,11 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const adminDashboardSlice = createSlice({
     name: "adminDashboard",
     initialState: {
         visitorData: [],
-        orderOverviewData: []
+        orderOverviewData: [],
+        allOrders: []
     },
     reducers: {
         updateVisitors: (state, action) => {
@@ -18,9 +19,15 @@ const adminDashboardSlice = createSlice({
                 ...state,
                 orderOverviewData: action.payload
             }
+        },
+        updateAllOrders: (state, action) => {
+            return {
+                ...state,
+                allOrders: action.payload
+            }
         }
     }
 })
 
-export const {updateVisitors, updateOrderOverviewData} = adminDashboardSlice.actions
+export const { updateVisitors, updateOrderOverviewData, updateAllOrders } = adminDashboardSlice.actions
 export default adminDashboardSlice.reducer

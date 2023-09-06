@@ -29,3 +29,8 @@ export const fetchOrdersOverview = () => {
     return axiosInstance_API_V1.get('admin/orders-overview')
         .catch(err => errorHandling(err))
 }
+
+export const fetchAllOrders = () => {
+    return axiosInstance_API_V1.get('admin/all-orders')
+        .catch(err => errorHandling(err))
+}
