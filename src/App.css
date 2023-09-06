@@ -1,0 +1,12 @@
+.bg-white-important {
+  background: #ffffff !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ReactModal__Overlay {
+  z-index: 100;
+}
