@@ -19,6 +19,7 @@ import { EditSubcategory } from "./pages/admin/contentManagement/categoriesManag
 import { EditMarketingProduct } from "./pages/admin/contentManagement/productsManagement/editMarketingProduct";
 import React from "react";
 import UserManagementLayout from "./pages/admin/userManagement/userManagementLayout";
+import Order from './pages/admin/orderManagement/order';
 import OrderManagementLayout from "./pages/admin/orderManagement/orderManagementLayout";
 import OrderManagement from "./pages/admin/orderManagement/orderManagement";
 import HistoryManagementLayout from "./pages/admin/historyManagement/historyManagementLayout";
@@ -129,6 +130,7 @@ function App() {
           <Route path={"/admin/orders"} element={<OrderManagementLayout />}>
             <Route index element={<OrderManagement />} />
           </Route>
+          <Route path={"/admin/orders/:id"} element={<Order />} />
           <Route path={"/admin/users"} element={<UserManagementLayout />}>
             <Route index element={<UserManagement />} />
             <Route path={"/admin/users/new"} element={<NewUser />} />

@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const adminDashboardSlice = createSlice({
     name: "adminDashboard",
     initialState: {
+        page: 1,
+        limit: 20,
         visitorData: [],
         orderOverviewData: [],
         allOrders: []
@@ -25,9 +27,15 @@ const adminDashboardSlice = createSlice({
                 ...state,
                 allOrders: action.payload
             }
-        }
+        },
+        updateAllOrdersPaginationProp: (state, action) => {
+            return {
+                ...state,
+                [action.payload.name]: action.payload.value
+            }
+        },
     }
 })
 
-export const { updateVisitors, updateOrderOverviewData, updateAllOrders } = adminDashboardSlice.actions
+export const { updateVisitors, updateOrderOverviewData, updateAllOrders, updateAllOrdersPaginationProp } = adminDashboardSlice.actions
 export default adminDashboardSlice.reducer

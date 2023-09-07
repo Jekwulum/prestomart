@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 
 const getHeaders = () => {
-    console.log(localStorage.getItem('access_token'),)
+    console.log(localStorage.getItem('access_token'))
     return {
         'Authorization': 'PRESTOMART_JWT ' + localStorage.getItem('access_token'),
         'Content-Type': 'application/json',

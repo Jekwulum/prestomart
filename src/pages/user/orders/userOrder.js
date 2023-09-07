@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NotFound } from "../../public/NotFound";
 import { fetchUserOrder } from "../../../store/actions/publicActions";
 import { toast } from "react-toastify";
-import { addLeadingZeros, formatPrice } from "../../../utils/helpers";
+import { formatPrice } from "../../../utils/helpers";
 import CartItemComponent from "../../../components/cards/cartItem.component";
 
 export const UserOrder = () => {
@@ -15,7 +15,6 @@ export const UserOrder = () => {
   useEffect(() => {
     fetchUserOrder(id.split("-")[1])
       .then(result => {
-
         if (result.data.http_code === 200) {
           setOrder(result.data.data)
           setLoading(false)
