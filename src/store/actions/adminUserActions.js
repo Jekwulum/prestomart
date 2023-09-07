@@ -8,8 +8,11 @@ export const fetchAdminUsers = () => {
     })
 }
 
-export const fetchAdminCustomers = () => {
-  return axiosInstance_API_V1.get('user/profile')
+export const fetchAdminCustomers = (page, limit, conditions) => {
+  return axiosInstance_API_V1.post('user/profile', {
+    page, number_of_records: limit,
+    conditions: JSON.stringify(conditions)
+  })
     .catch(err => {
       errorHandling(err)
     })

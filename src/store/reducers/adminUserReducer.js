@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name: "user",
     initialState: {
+        page: 1,
+        limit: 30,
         user: {
             first_name: "",
             last_name: "",
@@ -42,9 +44,15 @@ const userSlice = createSlice({
                 ...state,
                 customers: action.payload
             }
-        }
+        },
+        updateCustomersPaginationProp: (state, action) => {
+            return {
+                ...state,
+                [action.payload.name]: action.payload.value
+            }
+        },
     }
 })
 
-export const { updateUsers, updateAdminTypes, updateUserData, updateCustomers } = userSlice.actions
+export const { updateUsers, updateAdminTypes, updateUserData, updateCustomers, updateCustomersPaginationProp } = userSlice.actions
 export default userSlice.reducer
