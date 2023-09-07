@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
     name: "user",
@@ -11,7 +11,8 @@ const userSlice = createSlice({
             admin_type_id: null
         },
         users: [],
-        adminTypes: []
+        adminTypes: [],
+        customers: []
     },
     reducers: {
         updateUsers: (state, action) => {
@@ -35,9 +36,15 @@ const userSlice = createSlice({
                     [action.payload.name]: action.payload.value
                 }
             }
+        },
+        updateCustomers: (state, action) => {
+            return {
+                ...state,
+                customers: action.payload
+            }
         }
     }
 })
 
-export const {updateUsers, updateAdminTypes, updateUserData} = userSlice.actions
+export const { updateUsers, updateAdminTypes, updateUserData, updateCustomers } = userSlice.actions
 export default userSlice.reducer

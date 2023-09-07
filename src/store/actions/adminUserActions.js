@@ -8,6 +8,13 @@ export const fetchAdminUsers = () => {
     })
 }
 
+export const fetchAdminCustomers = () => {
+  return axiosInstance_API_V1.get('user/profile')
+    .catch(err => {
+      errorHandling(err)
+    })
+}
+
 export const fetchAdminTypesServer = () => {
   return axiosInstance_API_V1.get('admin/types')
     .catch(err => {

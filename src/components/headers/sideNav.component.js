@@ -53,13 +53,19 @@ export const SideNavComponent = () => {
                     <li className="w-full">
                         <Link to="/admin/users"
                               className={"block bg-transparent py-4 px-2 w-full hover:bg-orange-600 hover:text-white transition duration-300 " + (state.location === "users" ? " bg-orange-600  shadow-xl shadow-inner shadow-black text-white" : "")}>
-                            <UserGroupIcon className={"h-8 w-8 mx-auto"}/>
+                            <UserGroupIcon className={"h-8 w-8 mx-auto text-blue-500"}/>
                         </Link>
                     </li>
                     <li className="w-full">
                         <Link to="/admin/history"
                               className={"block bg-transparent py-4 px-2 w-full hover:bg-orange-600 hover:text-white transition duration-300 " + (state.location === "history" ? " bg-orange-600  shadow-xl shadow-inner shadow-black text-white" : "")}>
                             <ClockIcon className={"h-8 w-8 mx-auto"}/>
+                        </Link>
+                    </li>
+                    <li className="w-full">
+                        <Link to="/admin/customers"
+                              className={"block bg-transparent py-4 px-2 w-full hover:bg-orange-600 hover:text-white transition duration-300 " + (state.location === "customers" ? " bg-orange-600  shadow-xl shadow-inner shadow-black text-white" : "")}>
+                            <UserGroupIcon className={"h-8 w-8 mx-auto"}/>
                         </Link>
                     </li>
                 </ul>

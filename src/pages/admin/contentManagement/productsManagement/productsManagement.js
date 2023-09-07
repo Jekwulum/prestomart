@@ -144,10 +144,10 @@ const ProductsManagement = () => {
                     discount={_product.discount}
                   />)
               }
-            </tbody> : <div
-              className="flex flex-row justify-center w-full h-full absolute bg-gray-800 bg-opacity-50 top-0 left-0">
-              <Cog6ToothIcon className={"my-12 w-12 h-12 text-white animate-spin"} />
-            </div>}
+            </tbody> :
+              <div className="flex flex-row justify-center w-full h-full absolute bg-gray-800 bg-opacity-50 top-0 left-0">
+                <Cog6ToothIcon className={"my-12 w-12 h-12 text-white animate-spin"} />
+              </div>}
           </table>
         </div>
 
