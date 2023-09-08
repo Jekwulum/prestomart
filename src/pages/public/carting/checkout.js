@@ -19,6 +19,8 @@ import { formatPrice } from "../../../utils/helpers";
 import { closePaymentModal, FlutterWaveButton } from 'flutterwave-react-v3';
 import { emptyCart } from "../../../store/reducers/cartReducer";
 
+import CustomFlutterwaveCheckout from "./customFlutterwaveCheckout";
+
 export const Checkout = () => {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -118,6 +120,7 @@ export const Checkout = () => {
       })
         .then(
           result => {
+            console.log("res: ", result);
             switch (result.data.http_code) {
               case 200:
                 setOrderFormData({ ...orderFormData, payment_detail_id: result.data.data })
@@ -441,8 +444,8 @@ export const Checkout = () => {
                   <>
                     {
                       paymentDetailsFormData.payment_method === "pay_online" ?
-                        <FlutterWaveButton {...fwConfig}
-                          className={"mt-2 flex flex-row items-center justify-center w-fit px-4 text-white bg-black block w-full py-4 rounded"} />
+                        // <FlutterWaveButton {...fwConfig} className={"mt-2 flex flex-row items-center justify-center w-fit px-4 text-white bg-black block w-full py-4 rounded"} />
+                        <CustomFlutterwaveCheckout paymentDetailsFormData orderFormData setOrderFormData />
                         :
                         <Button text={"Complete Order"} className={"mt-2"} bg={"#000"}
                           onClick={() => {
