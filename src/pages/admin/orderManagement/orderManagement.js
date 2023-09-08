@@ -59,7 +59,6 @@ const OrderManagement = () => {
             allOrders.map((i, k) => {
               const [itemCount, price] = getItemCountAndPrice(i);
               let flutterwaveInvoiceId = i.external_invoice_id.startsWith("PMART") ? "nil" :JSON.parse(i.external_invoice_id).flw_ref;
-              console.log(typeof i.external_invoice_id)
               return (
                 <LatestOrderRow
                   key={k}
