@@ -1,11 +1,10 @@
 import axios from "axios"
 import { toast } from "react-toastify";
 
-
+const token = localStorage.getItem('access_token');
 const getHeaders = () => {
-    console.log(localStorage.getItem('access_token'))
     return {
-        'Authorization': 'PRESTOMART_JWT ' + localStorage.getItem('access_token'),
+        'Authorization': 'PRESTOMART_JWT ' + token,
         'Content-Type': 'application/json',
         'Accept': "*"
     };

@@ -140,28 +140,29 @@ export const Checkout = () => {
 
     handleFlutterPayment({
       callback: (response) => {
-        createPaymentDetailsEntry({
-          ...paymentDetailsFormData,
-          external_invoice_id: JSON.stringify({
-            flw_ref: response.flw_ref,
-            transaction_id: response.transaction_id,
-            tx_ref: response.tx_ref,
-            payment_method: "pay_online"
+        if (response.status === "successful") {
+          createPaymentDetailsEntry({
+            ...paymentDetailsFormData,
+            external_invoice_id: JSON.stringify({
+              flw_ref: response.flw_ref,
+              transaction_id: response.transaction_id,
+              tx_ref: response.tx_ref,
+              payment_method: "pay_online"
+            })
           })
-        })
-          .then(
-            result => {
-              console.log("backend response: ", result.data.data);
-              switch (result.data.http_code) {
-                case 200:
-                  setOrderFormData({ ...orderFormData, payment_detail_id: result.data.data, order_state: true })
-                  break;
-                default:
-                  toast.error("Oops, looks like something went wrong. Please try again or contact support!")
-                  break
+            .then(
+              result => {
+                switch (result.data.http_code) {
+                  case 200:
+                    setOrderFormData({ ...orderFormData, payment_detail_id: result.data.data, order_state: true })
+                    break;
+                  default:
+                    toast.error("Oops, looks like something went wrong. Please try again or contact support!")
+                    break
+                }
               }
-            }
-          )
+            )
+        }
         closePaymentModal() // this will close the modal programmatically
       },
       onClose: () => { },

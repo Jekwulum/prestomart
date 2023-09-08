@@ -1,8 +1,8 @@
 import axiosInstance_API_V1 from "../axiosInstance_API_V1";
-import {errorHandling} from "./helper";
+import { errorHandling } from "./helper";
 
 export const registerVisit = () => {
-    return axiosInstance_API_V1.post('/visitor', {iden: localStorage.getItem("iden")})
+    return axiosInstance_API_V1.post('/visitor', { iden: localStorage.getItem("iden") })
         .catch(err => errorHandling(err))
 }
 
