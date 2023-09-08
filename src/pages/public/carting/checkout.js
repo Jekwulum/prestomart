@@ -5,6 +5,7 @@ import CheckIfCartEmpty from "../../../helpers/checkIfCartEmpty";
 import CartItemComponent from "../../../components/cards/cartItem.component";
 import {
   createPaymentDetailsEntry,
+  fetchPubk,
   fetchUserAddresses,
   placeOrder,
   sendUserAddress
@@ -15,11 +16,10 @@ import Modal from 'react-modal';
 import { PlusCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ColoredTextArea, ColoredTextInput } from "../../../components/forms";
 import { toast } from "react-toastify";
-import { formatPrice } from "../../../utils/helpers";
-import { closePaymentModal, FlutterWaveButton } from 'flutterwave-react-v3';
+import { generateFlutterwaveConfig, formatPrice } from "../../../utils/helpers";
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import { emptyCart } from "../../../store/reducers/cartReducer";
 
-import CustomFlutterwaveCheckout from "./customFlutterwaveCheckout";
 
 export const Checkout = () => {
   const state = useSelector(state => state)
@@ -40,7 +40,8 @@ export const Checkout = () => {
     delivery_cost: 0.00,
     payment_detail_id: -1
   })
-  const [deliveryFee, setDeliveryFee] = useState(500)
+  const [deliveryFee, setDeliveryFee] = useState(500);
+  const [pubk, setPubk] = useState("");
   const [paymentDetailsFormData, setPaymentDetailsFormData] = useState({
     external_invoice_id: "",
     payment_method: "pay_online"
@@ -69,7 +70,8 @@ export const Checkout = () => {
               break
           }
         }
-      )
+      );
+
   }, [orderFormData.payment_detail_id]);
 
   const customStyles = {
@@ -81,60 +83,6 @@ export const Checkout = () => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
     }
-  };
-  const config = {
-    public_key: process.env.REACT_APP_FLW_PLK_KEY,
-    tx_ref: "PRESTOMART_CLIENT_FLW_TRANSACTION_" + Date.now(),
-    amount: (state.cart.cart.map(
-      i =>
-        i.product.discount.sort(i => i.discount_active)[0].discount_active === 1 ?
-          (1 - (parseInt(i.product.discount.sort(i => i.discount_active)[0].discount_percentage) / 100)) * i.product.price * i.amount
-          :
-          i.product.price * i.amount
-    ).reduce((a, b) => a + b, 0) + deliveryFee) / 100,
-    currency: 'NGN',
-    payment_options: 'card,ussd',
-    customer: {
-      email: state.auth.user_data.email,
-      phone_number: state.auth.user_data.phone_number,
-      name: state.auth.user_data.first_name + " " + state.auth.user_data.last_name,
-    },
-    customizations: {
-      title: "PrestoMart Cart",
-      // description: 'Payment for items in cart',
-      // logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
-    },
-  };
-
-  const fwConfig = {
-    ...config,
-    text: 'Pay with Flutterwave!',
-    callback: (response) => {
-      createPaymentDetailsEntry({
-        ...paymentDetailsFormData,
-        external_invoice_id: JSON.stringify({
-          flw_ref: response.flw_ref,
-          transaction_id: response.transaction_id,
-          tx_ref: response.tx_ref
-        })
-      })
-        .then(
-          result => {
-            console.log("res: ", result);
-            switch (result.data.http_code) {
-              case 200:
-                setOrderFormData({ ...orderFormData, payment_detail_id: result.data.data })
-                break;
-              default:
-                toast.error("Oops, looks like something went wrong. Please try again or contact support!")
-                break
-            }
-          }
-        )
-      closePaymentModal() // this will close the modal programmatically
-    },
-    onClose: () => {
-    },
   };
 
   const updateFormData = (n, v) => {
@@ -167,8 +115,58 @@ export const Checkout = () => {
       })
       .finally(() => {
         setAddyLoading(false)
-      })
+      });
+
+    fetchPubk().then(
+      resp => {
+        if (resp.data.status === "SUCCESS") setPubk(resp.data.key)
+      }
+    )
   }
+
+
+  const amount = (state.cart.cart.map(
+    i =>
+      i.product.discount.sort(i => i.discount_active)[0].discount_active === 1 ?
+        (1 - (parseInt(i.product.discount.sort(i => i.discount_active)[0].discount_percentage) / 100)) * i.product.price * i.amount
+        :
+        i.product.price * i.amount
+  ).reduce((a, b) => a + b, 0) + deliveryFee);
+
+  const config = generateFlutterwaveConfig(state.auth.user_data, amount, pubk);
+
+  const handleFlutterPayment = useFlutterwave(config);
+  const handlePaymentRequest = () => {
+
+    handleFlutterPayment({
+      callback: (response) => {
+        createPaymentDetailsEntry({
+          ...paymentDetailsFormData,
+          external_invoice_id: JSON.stringify({
+            flw_ref: response.flw_ref,
+            transaction_id: response.transaction_id,
+            tx_ref: response.tx_ref,
+            payment_method: "pay_online"
+          })
+        })
+          .then(
+            result => {
+              console.log("backend response: ", result.data.data);
+              switch (result.data.http_code) {
+                case 200:
+                  setOrderFormData({ ...orderFormData, payment_detail_id: result.data.data, order_state: true })
+                  break;
+                default:
+                  toast.error("Oops, looks like something went wrong. Please try again or contact support!")
+                  break
+              }
+            }
+          )
+        closePaymentModal() // this will close the modal programmatically
+      },
+      onClose: () => { },
+    })
+  };
 
   return (
     <>
@@ -445,7 +443,12 @@ export const Checkout = () => {
                     {
                       paymentDetailsFormData.payment_method === "pay_online" ?
                         // <FlutterWaveButton {...fwConfig} className={"mt-2 flex flex-row items-center justify-center w-fit px-4 text-white bg-black block w-full py-4 rounded"} />
-                        <CustomFlutterwaveCheckout paymentDetailsFormData orderFormData setOrderFormData />
+                        <button
+                          className="mt-2 h-10 flex flex-row items-center justify-center px-4 text-white bg-black block w-full py-4 rounded"
+                          onClick={() => handlePaymentRequest()}
+                        >
+                          Pay with Flutterwave
+                        </button>
                         :
                         <Button text={"Complete Order"} className={"mt-2"} bg={"#000"}
                           onClick={() => {

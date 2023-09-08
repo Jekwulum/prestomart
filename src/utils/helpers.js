@@ -26,3 +26,23 @@ export const formatTimestamp = (timestamp) => {
 
     return formattedDate;
 }
+
+export const generateFlutterwaveConfig = (customer, amount, pubk) => {
+    return {
+        public_key: pubk,
+        tx_ref: "PRESTOMART_CLIENT_FLW_TRANSACTION_" + Date.now(),
+        amount,
+        currency: 'NGN',
+        payment_options: 'card,mobilemoney,ussd',
+        customer: {
+            email: customer.email,
+            phone_number: customer.phone_number,
+            name: customer.first_name + " " + customer.last_name,
+        },
+        customizations: {
+            title: 'Prestomart Cart',
+            description: 'Payment for items in cart',
+            logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+        },
+    };
+};

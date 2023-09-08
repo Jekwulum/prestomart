@@ -56,3 +56,8 @@ export const fetchUserOrder = (id) => {
     return axiosInstance_API_V1.get("/user/orders/" + id)
         .catch(err => errorHandling(err))
 }
+
+export const fetchPubk = () => {
+    return axiosInstance_API_V1.get("/user/orders-pubk")
+        .catch(err => errorHandling(err))
+}

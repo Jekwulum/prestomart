@@ -58,6 +58,8 @@ const OrderManagement = () => {
           {Array.isArray(allOrders) ? (
             allOrders.map((i, k) => {
               const [itemCount, price] = getItemCountAndPrice(i);
+              let flutterwaveInvoiceId = i.external_invoice_id.startsWith("PMART") ? "nil" :JSON.parse(i.external_invoice_id).flw_ref;
+              console.log(typeof i.external_invoice_id)
               return (
                 <LatestOrderRow
                   key={k}
@@ -69,6 +71,7 @@ const OrderManagement = () => {
                   status={i.order_state}
                   paymentMethod={i.payment_method}
                   invoiceNumber={i.invoice_id}
+                  flvInvNumber={flutterwaveInvoiceId}
                 />)
             })
           ) : <div className="flex flex-row justify-center w-full h-full absolute bg-gray-800 bg-opacity-50 top-0 left-0">
