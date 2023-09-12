@@ -13,9 +13,9 @@ const getHeaders = () => {
 const urls = {
     REACT_APP_PROD_API_URL: "https://prestomart-api.onrender.com/api/v1",
     REACT_APP_DEV_API_URL: "http://localhost:5000/api/v1"
-}
+};
 const axiosInstance_API_V1 = axios.create({
-    baseURL: urls.REACT_APP_PROD_API_URL,
+    baseURL: urls.REACT_APP_DEV_API_URL,
     headers: getHeaders()
 })
 

@@ -1,6 +1,6 @@
 import presto_mart_logo from "./images/logo.png"
 import  exclamation_mark from "./images/exclamationMark.png"
-import payment_channels from "./images/paymentChannels.svg"
+import payment_channels from "./images/trusted_by_flutterwave.png"
 import carousel_test from "./images/carousel.png"
 import product_image from "./images/productimg.png"
 import  image_404 from "./images/404-SHOPORTFOLIO-ORANGE-TRANSP-SQ.png"
