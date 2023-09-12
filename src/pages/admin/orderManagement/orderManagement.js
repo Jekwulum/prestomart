@@ -55,7 +55,7 @@ const OrderManagement = () => {
 
       <div className="">
         <LatestOrdersComponent>
-          {Array.isArray(allOrders) ? (
+          {(Array.isArray(allOrders) && allOrders.length > 0) ? (
             allOrders.map((i, k) => {
               const [itemCount, price] = getItemCountAndPrice(i);
               let flutterwaveInvoiceId = i.external_invoice_id.startsWith("PMART") ? "nil" :JSON.parse(i.external_invoice_id).flw_ref;
