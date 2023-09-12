@@ -58,7 +58,7 @@ export const CategoryCardComponent = ({category = {},}) => {
                 </p>
 
                 <ButtonGroup className={"px-2 justify-center"}>
-                    <LinkButton location={"/admin/contentManagement/categories/edit/" + category.product_category_id}
+                    <LinkButton location={"/admin/content/categories/edit/" + category.product_category_id}
                                 text={"Edit"}
                                 bg={"blue"} color={"white"} size={"xs"}/>
                     <Button onClick={() => deleteCategory(category.product_category_id)}

@@ -49,8 +49,8 @@ export const EditSubcategory = () => {
 
     const updateSubcategory = () => {
         toast.promise(updateSubcategoryServer(subcategory, id), {
-            pending: "Creating new category...",
-            success: "New category created!"
+            pending: "Updating subcategory...",
+            success: "Sub category updated!"
         })
             .then(() => {
                 fetchCategories()
