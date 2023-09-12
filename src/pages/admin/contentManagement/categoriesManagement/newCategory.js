@@ -101,7 +101,7 @@ export const NewCategory = () => {
                         <ColoredTextInput value={category.name} onChange={e => dispatch(updateCategoryProp__L1({
                             name: "name",
                             value: e.target.value
-                        }))} label={"Subcategory Name"}/>
+                        }))} label={"Category Name"}/>
                     </div>
 
                     <div className="mb-8">

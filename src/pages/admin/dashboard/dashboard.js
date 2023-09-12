@@ -28,7 +28,6 @@ const Dashboard = () => {
 
   const orderOverviewData = useSelector(state => state.adminDashboard.orderOverviewData);
   const adminDashboard = useSelector(state => state.adminDashboard);
-  console.log("overview: ", orderOverviewData);
 
   useEffect(() => {
 
