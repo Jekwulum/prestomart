@@ -98,7 +98,6 @@ const Login = () => {
     }, [])
 
     useEffect(() => {
-        localStorage.clear();
         if (!auth.auth.authenticated)
             return
 

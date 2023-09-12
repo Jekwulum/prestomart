@@ -139,7 +139,7 @@ export const UserOrder = () => {
                                     (1 - (parseInt(i.product.discount.sort(i => i.discount_active)[0].discount_percentage) / 100)) * i.product.price * i.amount
                                     :
                                     i.product.price * i.amount
-                              ).reduce((a, b) => a + b, 0) + order.delivery_cost)
+                              ).reduce((a, b) => a + b, 0) + Number(order.delivery_cost))
                             }
                           </span>
                         </h4>
