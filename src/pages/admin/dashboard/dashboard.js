@@ -99,7 +99,7 @@ const Dashboard = () => {
                   flvInvNumber={flutterwaveInvoiceId}
                 />)
             })
-          ) : <div className="flex justify-center items-center w-full h-full bg-gray-800 bg-opacity-50 m-auto">
+          ) : <div className="flex justify-center items-center h-full w-full bg-gray-800 bg-opacity-50 m-auto">
             <Cog6ToothIcon className={"my-12 w-12 h-12 text-white animate-spin"} />
           </div>}
         </LatestOrdersComponent>
