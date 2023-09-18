@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 import CheckIfLoggedIn from "../../../helpers/checkIfLoggedIn";
 import CheckIfCartEmpty from "../../../helpers/checkIfCartEmpty";
 import CartItemComponent from "../../../components/cards/cartItem.component";
@@ -45,7 +46,9 @@ export const Checkout = () => {
   const [paymentDetailsFormData, setPaymentDetailsFormData] = useState({
     external_invoice_id: "",
     payment_method: "pay_online"
-  })
+  });
+
+  console.log("key: ", process.env.REACT_APP_FLUTTERWAVE_PUBK_ENCRYPTION_KEY)
 
   useEffect(() => {
 
@@ -119,7 +122,11 @@ export const Checkout = () => {
 
     fetchPubk().then(
       resp => {
-        if (resp.data.status === "SUCCESS") setPubk(resp.data.key)
+        if (resp.data.status === "SUCCESS") {
+          let bytes = CryptoJS.AES.decrypt(resp.data.key, process.env.REACT_APP_FLUTTERWAVE_PUBK_ENCRYPTION_KEY);
+          let pubk = bytes.toString(CryptoJS.enc.Utf8);
+          setPubk(pubk);
+        }
       }
     )
   }
